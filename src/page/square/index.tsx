@@ -13,11 +13,8 @@ const Square = () => {
 
   const handleIframeLoad = () => {
     setIsLoading(false)
-    console.log("Iframe Loaded Send To Token")
     sendMessage({ type: 'COMMONS_INIT', data: { token: "qweqweqweqweqweeqeqwe", userId: 123 } })
   }
-
-  console.log("🚀 ~ Square ~ squarePath:", squarePath.square)
   return (
     <div className="relative w-full min-h-[calc(100vh-78px)] h-full">
       {isLoading && (

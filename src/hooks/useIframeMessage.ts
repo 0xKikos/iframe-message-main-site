@@ -31,7 +31,7 @@ export const useIframeMessage = (options: IframeMessageOptions = {}) => {
 
     const handleMessage = (event: MessageEvent) => {
       if (event.origin !== squarePath.base) return;
-      onMessage(event);
+      onMessage(event.data);
     };
 
     window.addEventListener('message', handleMessage);
