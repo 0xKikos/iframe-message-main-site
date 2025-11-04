@@ -1,12 +1,23 @@
 import { useState } from 'react'
+import { useIframeMessage } from '@/hooks/useIframeMessage'
+import { squarePath } from '@/constant/square-path'
 
 const Square = () => {
   const [isLoading, setIsLoading] = useState(true)
 
+  const { iframeRef, sendMessage } = useIframeMessage({
+    onMessage: (event) => {
+      console.log("🚀 ~ Square ~ event:", event)
+    }
+  })
+
   const handleIframeLoad = () => {
     setIsLoading(false)
+    console.log("Iframe Loaded Send To Token")
+    sendMessage({ type: 'COMMONS_INIT', data: { token: "qweqweqweqweqweeqeqwe", userId: 123 } })
   }
 
+  console.log("🚀 ~ Square ~ squarePath:", squarePath.square)
   return (
     <div className="relative w-full min-h-[calc(100vh-78px)] h-full">
       {isLoading && (
@@ -18,7 +29,8 @@ const Square = () => {
         </div>
       )}
       <iframe
-        src="http://localhost:5174/"
+        ref={iframeRef}
+        src={squarePath.square}
         className="w-full h-full"
         onLoad={handleIframeLoad}
       />
