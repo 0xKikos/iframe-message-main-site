@@ -2,15 +2,23 @@ import { squarePath } from '@/constant/square-path'
 import { token } from '@/constant/token-mock'
 import { useIframeMessage } from '@/hooks/useIframeMessage'
 import { useState } from 'react'
-import { useParams } from 'react-router'
+import { useLocation, useNavigate, useParams } from 'react-router'
 
 const SquareDetail = () => {
   const [isLoading, setIsLoading] = useState(true)
   const { id: squareId } = useParams()
-
+  const location = useLocation();
+  const navigate = useNavigate()
   const { iframeRef, sendMessage } = useIframeMessage({
     onMessage: (event) => {
-      console.log("🐙 Main: Receive Message", event)
+      if (event.type === "COMMONS_SQUARE_DETAIL_BACK") {
+        console.log("back");
+        if (location.key === "default") {
+          navigate("/square")
+        } else {
+          navigate(-1)
+        }
+      }
     }
   })
 
@@ -28,7 +36,7 @@ const SquareDetail = () => {
           </div>
         </div>
       )}
-      <iframe ref={iframeRef} src={squarePath.detail} className='w-full h-full' onLoad={handleIframeLoad} />
+      <iframe ref={iframeRef} src={`${squarePath.detail}/${squareId}`} className='w-full h-full' onLoad={handleIframeLoad} />
     </section>
   )
 }
