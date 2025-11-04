@@ -15,12 +15,14 @@ export const useIframeMessage = (options: IframeMessageOptions = {}) => {
     (message: any) => {
       if (!iframeRef.current) return console.warn('Please correctly configure the iframeRef');
       if (iframeRef.current && iframeRef.current.contentWindow) {
+        console.log("🐙 Main: Send Message", message);
+
         iframeRef.current.contentWindow.postMessage(
           message,
           targetOrigin
         );
       } else {
-        console.warn('iframe is not loaded or not available');
+        console.warn('🐙 Main: iframe is not loaded or not available');
       }
     },
     [iframeRef, targetOrigin]

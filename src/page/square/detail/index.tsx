@@ -1,34 +1,25 @@
-import { useState } from 'react'
-import { useIframeMessage } from '@/hooks/useIframeMessage'
 import { squarePath } from '@/constant/square-path'
 import { token } from '@/constant/token-mock'
-import { useNavigate } from 'react-router'
+import { useIframeMessage } from '@/hooks/useIframeMessage'
+import { useState } from 'react'
+import { useParams } from 'react-router'
 
-const Square = () => {
-  const navigate = useNavigate()
+const SquareDetail = () => {
   const [isLoading, setIsLoading] = useState(true)
+  const { id: squareId } = useParams()
 
   const { iframeRef, sendMessage } = useIframeMessage({
     onMessage: (event) => {
       console.log("🐙 Main: Receive Message", event)
-      switch (event.type) {
-        case "COMMONS_SQUARE_DETAIL":
-          navigate(`/square/${event.data.squareId}`)
-          break
-        default:
-          break
-      }
     }
   })
 
   const handleIframeLoad = () => {
     setIsLoading(false)
-    sendMessage({ type: 'COMMONS_INIT', data: { token: token } })
+    sendMessage({ type: 'COMMONS_SQUARE_DETAIL_INIT', data: { token: token, squareId: squareId } })
   }
-
-
   return (
-    <div className="relative w-full h-[calc(100vh-78px)]">
+    <section className='w-full min-h-screen relative'>
       {isLoading && (
         <div className="absolute inset-0 flex h-full items-center justify-center bg-background">
           <div className="flex flex-col items-center gap-3">
@@ -37,14 +28,9 @@ const Square = () => {
           </div>
         </div>
       )}
-      <iframe
-        ref={iframeRef}
-        src={squarePath.square}
-        className="w-full h-full"
-        onLoad={handleIframeLoad}
-      />
-    </div>
+      <iframe ref={iframeRef} src={squarePath.detail} className='w-full h-full' onLoad={handleIframeLoad} />
+    </section>
   )
 }
 
-export default Square
+export default SquareDetail

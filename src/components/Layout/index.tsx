@@ -1,12 +1,9 @@
-import React from 'react'
-import Footer from './Footer'
 import { Outlet } from 'react-router'
 
 const Layout = () => {
   return (
-    <div>
+    <div className='max-w-lg mx-auto'>
       <Outlet />
-      <Footer />
     </div>
   )
 }
