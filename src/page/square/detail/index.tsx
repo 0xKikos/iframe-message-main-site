@@ -24,7 +24,7 @@ const SquareDetail = () => {
 
   const handleIframeLoad = () => {
     setIsLoading(false)
-    sendMessage({ type: 'COMMONS_SQUARE_DETAIL_INIT', data: { token: token, squareId: squareId } })
+    sendMessage({ type: 'COMMONS_SQUARE_DETAIL', data: { token: token, squareId: squareId } })
   }
   return (
     <section className='w-full min-h-screen relative'>

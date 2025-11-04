@@ -12,7 +12,7 @@ const Square = () => {
     onMessage: (event) => {
       console.log("🐙 Main: Receive Message", event)
       switch (event.type) {
-        case "COMMONS_SQUARE_DETAIL":
+        case "COMMONS_SQUARE_JOIN_DETAIL":
           navigate(`/square/${event.data.squareId}`)
           break
         default:
@@ -23,7 +23,7 @@ const Square = () => {
 
   const handleIframeLoad = () => {
     setIsLoading(false)
-    sendMessage({ type: 'COMMONS_INIT', data: { token: token } })
+    sendMessage({ type: 'COMMONS_SQUARE_LIST', data: { token: token } })
   }
 
 
